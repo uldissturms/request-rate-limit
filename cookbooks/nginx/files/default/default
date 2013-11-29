@@ -1,0 +1,22 @@
+server {
+  root /usr/share/nginx/www;
+  index index.html index.htm;
+  
+  server_name localhost;
+  
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+  
+  location /403 {
+    deny all;
+  }
+  
+  location /404 {
+    return 404;
+  }
+
+  location /500 {
+    return 500;
+  }
+}
