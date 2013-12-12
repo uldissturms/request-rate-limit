@@ -14,10 +14,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe "haproxy"
       chef.add_recipe "tools"
       chef.json = {
-        "authorization" => {
-          "sudo" => {
-            "users" => [ "vagrant" ],
-            "passwordless" => true,
+        "haproxy" => {
+          "source" => {
+            "version" => "1.5-dev19",
+            "url" => "http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev19.tar.gz",
+            "checksum" => "7140a43637233bcb9cc51f789c0d3e0f"
           }
         }
       }
