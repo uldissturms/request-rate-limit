@@ -1,3 +1,10 @@
+limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
+
+geo $nolimit {
+  default 1;
+  127.0.0.1/32 1; # my network
+}
+
 server {
   root /usr/share/nginx/www;
   index index.html index.htm;
@@ -5,9 +12,15 @@ server {
   server_name localhost;
   
   location / {
+    proxy_set_header X-Forwarded-Proto https;
     try_files $uri $uri/ /index.html;
   }
-  
+ 
+  location /ssl {
+    proxy_set_header X-Forwarded-Proto https;
+    return 200;
+  }
+
   location /403 {
     deny all;
   }
@@ -19,4 +32,23 @@ server {
   location /500 {
     return 500;
   }
+
+  location /limit {
+   limit_req zone=one burst=5;
+   try_files $uri $uri/ /index.html;
+  }
+
+  location /limit-local {
+   error_page 418 = @nolimit;
+   if ($nolimit) {
+     return 418;
+   }
+
+   limit_req zone=one burst=5;
+   try_files $uri $uri/ /index.html;
+  }
+
+  location @nolimit {
+    try_files $uri $uri/ /index.html;
+ }
 }
