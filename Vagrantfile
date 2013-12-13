@@ -2,7 +2,8 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu"
+  config.vm.box = "debian-wheezy-x64-nocm"
+  config.vm.box_url = "https://s3-eu-west-1.amazonaws.com/ffuenf-vagrant-boxes/debian/debian-7.2.0-amd64.box"
   
   config.omnibus.chef_version = :latest
 
@@ -15,10 +16,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       chef.add_recipe "tools"
       chef.json = {
         "haproxy" => {
+          "install_method" => "source",
           "source" => {
             "version" => "1.5-dev19",
             "url" => "http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev19.tar.gz",
-            "checksum" => "7140a43637233bcb9cc51f789c0d3e0f"
+            "checksum" => "cb411f3dae1309d2ad848681bc7af1c4c60f102993bb2c22d5d4fd9f5d53d30f"
           }
         }
       }
