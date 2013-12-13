@@ -1,7 +1,7 @@
 limit_req_zone  $binary_remote_addr  zone=one:10m   rate=2r/s;
 
 geo $nolimit {
-  default 1;
+  default 0;
   127.0.0.1/32 1; # my network
 }
 
