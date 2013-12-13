@@ -32,6 +32,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     web.vm.network "private_network", ip: "10.0.0.101"
     web.vm.provision :chef_solo do |chef|
       chef.add_recipe "nginx"
+      chef.add_recipe "tools"
     end
   end
 
